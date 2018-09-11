@@ -1,0 +1,688 @@
+{
+ "name": "SalesLeadsFunction",
+ "description": " ",
+ "version": "1.0.0",
+ "type": "flogo:app",
+ "appModel": "1.0.0",
+ "resources": [
+  {
+   "id": "flow:CreateLead",
+   "data": {
+    "name": "CreateLead",
+    "description": "",
+    "tasks": [
+     {
+      "id": "CheckCustomer",
+      "name": "CheckCustomer",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Salesforce/activity/query",
+       "input": {
+        "Connection Name": {
+         "title": "Salesforce Connector",
+         "name": "tibco-salesforce",
+         "version": "1.0.0",
+         "type": "flogo:connector",
+         "author": "TIBCO Software Inc.",
+         "display": {
+          "description": "SalesForce Connector",
+          "visible": true,
+          "category": "Salesforce",
+          "smallIcon": "icons/ic-tibco-salesforce.png",
+          "largeIcon": "icons/ic-tibco-salesforce@2x.png"
+         },
+         "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Salesforce/connector",
+         "keyfield": "name",
+         "settings": [
+          {
+           "name": "name",
+           "type": "string",
+           "required": true,
+           "inputType": "text",
+           "display": {
+            "name": "Name",
+            "visible": true,
+            "placeholder": "Connection name"
+           },
+           "value": "SalesforceConnection"
+          },
+          {
+           "name": "description",
+           "type": "string",
+           "required": false,
+           "inputType": "text",
+           "display": {
+            "name": "Description",
+            "description": "Connection description",
+            "visible": true
+           },
+           "value": ""
+          },
+          {
+           "name": "environment",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Environment",
+            "description": "Salesforce environment type",
+            "type": "dropdown",
+            "selection": "single",
+            "readonly": false,
+            "valid": true,
+            "visible": true
+           },
+           "allowed": [
+            "Production",
+            "Sandbox"
+           ],
+           "value": "Production"
+          },
+          {
+           "name": "clientId",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Client Id",
+            "description": "Oauth client Id",
+            "visible": false,
+            "readonly": false,
+            "valid": true
+           },
+           "value": ""
+          },
+          {
+           "name": "clientSecret",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Client Secret",
+            "type": "password",
+            "description": "OAuth client secret",
+            "visible": false,
+            "readonly": false,
+            "valid": true
+           },
+           "value": "SECRET:/u1OHQue/uD7TC/HyzC8gw=="
+          },
+          {
+           "name": "apiVersion",
+           "type": "string",
+           "required": true,
+           "inputType": "list",
+           "allowed": [
+            "v39.0",
+            "v38.0",
+            "v37.0",
+            "v36.0"
+           ],
+           "value": "v39.0",
+           "display": {
+            "name": "API Version",
+            "visible": false
+           }
+          },
+          {
+           "name": "authType",
+           "type": "string",
+           "required": true,
+           "allowed": [
+            "BASIC",
+            "OAUTH1",
+            "OAUTH2",
+            "OAUTH2_TWOLEG"
+           ],
+           "value": "OAUTH2",
+           "display": {
+            "visible": false
+           }
+          },
+          {
+           "name": "WI_STUDIO_OAUTH_CONNECTOR_INFO",
+           "type": "string",
+           "required": true,
+           "display": {
+            "visible": false,
+            "readonly": false,
+            "valid": false
+           },
+           "value": "SECRET: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"
+          }
+         ],
+         "actions": [
+          {
+           "name": "Login"
+          }
+         ],
+         "s3Prefix": "Tibco",
+         "lastModifiedDate": "2018-08-23T18:24:04.000Z",
+         "key": "Tibco/Salesforce/connector/salesforce/connector.json",
+         "isValid": true,
+         "lastUpdatedTime": 1536278816585,
+         "createdTime": 1536267556335,
+         "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+         "subscriptionId": "TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD",
+         "id": "b74207f0-b217-11e8-9565-b9f5f02a2a5b",
+         "connectorName": "SalesforceConnection",
+         "connectorDescription": " "
+        },
+        "Object Name": "Lead"
+       },
+       "output": {
+        "output": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Lead\":{\"type\":\"object\",\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Id\":{\"type\":\"string\",\"maxLength\":18},\"IsDeleted\":{\"type\":\"boolean\"},\"MasterRecordId\":{\"type\":\"string\",\"maxLength\":18},\"LastName\":{\"type\":\"string\",\"maxLength\":80},\"FirstName\":{\"type\":\"string\",\"maxLength\":40},\"Salutation\":{\"type\":\"string\",\"maxLength\":40},\"Name\":{\"type\":\"string\",\"maxLength\":121},\"Title\":{\"type\":\"string\",\"maxLength\":128},\"Company\":{\"type\":\"string\",\"maxLength\":255},\"Street\":{\"type\":\"string\",\"maxLength\":255},\"City\":{\"type\":\"string\",\"maxLength\":40},\"State\":{\"type\":\"string\",\"maxLength\":80},\"PostalCode\":{\"type\":\"string\",\"maxLength\":20},\"Country\":{\"type\":\"string\",\"maxLength\":80},\"Latitude\":{\"type\":\"number\"},\"Longitude\":{\"type\":\"number\"},\"GeocodeAccuracy\":{\"type\":\"string\",\"maxLength\":40},\"Address\":{\"type\":\"object\",\"properties\":{\"city\":{\"type\":\"string\"},\"country\":{\"type\":\"string\"},\"countryCode\":{\"type\":\"string\"},\"geocodeAccuracy\":{\"type\":\"string\"},\"postalCode\":{\"type\":\"string\"},\"state\":{\"type\":\"string\"},\"stateCode\":{\"type\":\"string\"},\"street\":{\"type\":\"string\"},\"latitude\":{\"type\":\"string\"},\"longitude\":{\"type\":\"string\"}}},\"Phone\":{\"type\":\"string\",\"maxLength\":40},\"MobilePhone\":{\"type\":\"string\",\"maxLength\":40},\"Fax\":{\"type\":\"string\",\"maxLength\":40},\"Email\":{\"type\":\"string\",\"format\":\"email\",\"maxLength\":80},\"Website\":{\"type\":\"string\",\"maxLength\":255},\"PhotoUrl\":{\"type\":\"string\",\"maxLength\":255},\"Description\":{\"type\":\"string\",\"maxLength\":32000},\"LeadSource\":{\"type\":\"string\",\"maxLength\":40},\"Status\":{\"type\":\"string\",\"maxLength\":40},\"Industry\":{\"type\":\"string\",\"maxLength\":40},\"Rating\":{\"type\":\"string\",\"maxLength\":40},\"AnnualRevenue\":{\"type\":\"number\"},\"NumberOfEmployees\":{\"type\":\"integer\"},\"OwnerId\":{\"type\":\"string\",\"maxLength\":18},\"IsConverted\":{\"type\":\"boolean\"},\"ConvertedDate\":{\"type\":\"string\",\"format\":\"date\"},\"ConvertedAccountId\":{\"type\":\"string\",\"maxLength\":18},\"ConvertedContactId\":{\"type\":\"string\",\"maxLength\":18},\"ConvertedOpportunityId\":{\"type\":\"string\",\"maxLength\":18},\"IsUnreadByOwner\":{\"type\":\"boolean\"},\"CreatedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"CreatedById\":{\"type\":\"string\",\"maxLength\":18},\"LastModifiedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastModifiedById\":{\"type\":\"string\",\"maxLength\":18},\"SystemModstamp\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastActivityDate\":{\"type\":\"string\",\"format\":\"date\"},\"LastViewedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastReferencedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"Jigsaw\":{\"type\":\"string\",\"maxLength\":20},\"JigsawContactId\":{\"type\":\"string\",\"maxLength\":20},\"CleanStatus\":{\"type\":\"string\",\"maxLength\":40},\"CompanyDunsNumber\":{\"type\":\"string\",\"maxLength\":9},\"DandbCompanyId\":{\"type\":\"string\",\"maxLength\":18},\"EmailBouncedReason\":{\"type\":\"string\",\"maxLength\":255},\"EmailBouncedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"SICCode__c\":{\"type\":\"string\",\"maxLength\":15},\"ProductInterest__c\":{\"type\":\"string\",\"maxLength\":255},\"Primary__c\":{\"type\":\"string\",\"maxLength\":255},\"CurrentGenerators__c\":{\"type\":\"string\",\"maxLength\":100},\"NumberofLocations__c\":{\"type\":\"number\"}}}},\"done\":{\"type\":\"boolean\"},\"totalSize\":{\"type\":\"number\"}}}}}",
+         "value": ""
+        }
+       },
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['query']",
+          "type": "expression",
+          "value": "string.concat(\"SELECT Email FROM Lead WHERE Email = '\", $flow.email, \"'\")"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "CreateSFLead",
+      "name": "CreateSFLead",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Salesforce/activity/create",
+       "input": {
+        "Connection Name": {
+         "title": "Salesforce Connector",
+         "name": "tibco-salesforce",
+         "version": "1.0.0",
+         "type": "flogo:connector",
+         "author": "TIBCO Software Inc.",
+         "display": {
+          "description": "SalesForce Connector",
+          "visible": true,
+          "category": "Salesforce",
+          "smallIcon": "icons/ic-tibco-salesforce.png",
+          "largeIcon": "icons/ic-tibco-salesforce@2x.png"
+         },
+         "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Salesforce/connector",
+         "keyfield": "name",
+         "settings": [
+          {
+           "name": "name",
+           "type": "string",
+           "required": true,
+           "inputType": "text",
+           "display": {
+            "name": "Name",
+            "visible": true,
+            "placeholder": "Connection name"
+           },
+           "value": "SalesforceConnection"
+          },
+          {
+           "name": "description",
+           "type": "string",
+           "required": false,
+           "inputType": "text",
+           "display": {
+            "name": "Description",
+            "description": "Connection description",
+            "visible": true
+           },
+           "value": ""
+          },
+          {
+           "name": "environment",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Environment",
+            "description": "Salesforce environment type",
+            "type": "dropdown",
+            "selection": "single",
+            "readonly": false,
+            "valid": true,
+            "visible": true
+           },
+           "allowed": [
+            "Production",
+            "Sandbox"
+           ],
+           "value": "Production"
+          },
+          {
+           "name": "clientId",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Client Id",
+            "description": "Oauth client Id",
+            "visible": false,
+            "readonly": false,
+            "valid": true
+           },
+           "value": ""
+          },
+          {
+           "name": "clientSecret",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Client Secret",
+            "type": "password",
+            "description": "OAuth client secret",
+            "visible": false,
+            "readonly": false,
+            "valid": true
+           },
+           "value": "SECRET:X9L/BbDMAsSujc0sqkW7Tw=="
+          },
+          {
+           "name": "apiVersion",
+           "type": "string",
+           "required": true,
+           "inputType": "list",
+           "allowed": [
+            "v39.0",
+            "v38.0",
+            "v37.0",
+            "v36.0"
+           ],
+           "value": "v39.0",
+           "display": {
+            "name": "API Version",
+            "visible": false
+           }
+          },
+          {
+           "name": "authType",
+           "type": "string",
+           "required": true,
+           "allowed": [
+            "BASIC",
+            "OAUTH1",
+            "OAUTH2",
+            "OAUTH2_TWOLEG"
+           ],
+           "value": "OAUTH2",
+           "display": {
+            "visible": false
+           }
+          },
+          {
+           "name": "WI_STUDIO_OAUTH_CONNECTOR_INFO",
+           "type": "string",
+           "required": true,
+           "display": {
+            "visible": false,
+            "readonly": false,
+            "valid": false
+           },
+           "value": "SECRET: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"
+          }
+         ],
+         "actions": [
+          {
+           "name": "Login"
+          }
+         ],
+         "s3Prefix": "Tibco",
+         "lastModifiedDate": "2018-08-23T18:24:04.000Z",
+         "key": "Tibco/Salesforce/connector/salesforce/connector.json",
+         "isValid": true,
+         "lastUpdatedTime": 1536278816585,
+         "createdTime": 1536267556335,
+         "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+         "subscriptionId": "TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD",
+         "id": "b74207f0-b217-11e8-9565-b9f5f02a2a5b",
+         "connectorName": "SalesforceConnection",
+         "connectorDescription": " "
+        },
+        "Object Name": "Lead",
+        "input": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Lead\":{\"type\":\"object\",\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Id\":{\"type\":\"string\",\"maxLength\":18},\"IsDeleted\":{\"type\":\"boolean\"},\"MasterRecordId\":{\"type\":\"string\",\"maxLength\":18},\"LastName\":{\"type\":\"string\",\"maxLength\":80},\"FirstName\":{\"type\":\"string\",\"maxLength\":40},\"Salutation\":{\"type\":\"string\",\"maxLength\":40},\"Name\":{\"type\":\"string\",\"maxLength\":121},\"Title\":{\"type\":\"string\",\"maxLength\":128},\"Company\":{\"type\":\"string\",\"maxLength\":255},\"Street\":{\"type\":\"string\",\"maxLength\":255},\"City\":{\"type\":\"string\",\"maxLength\":40},\"State\":{\"type\":\"string\",\"maxLength\":80},\"PostalCode\":{\"type\":\"string\",\"maxLength\":20},\"Country\":{\"type\":\"string\",\"maxLength\":80},\"Latitude\":{\"type\":\"number\"},\"Longitude\":{\"type\":\"number\"},\"GeocodeAccuracy\":{\"type\":\"string\",\"maxLength\":40},\"Address\":{\"type\":\"object\",\"properties\":{\"city\":{\"type\":\"string\"},\"country\":{\"type\":\"string\"},\"countryCode\":{\"type\":\"string\"},\"geocodeAccuracy\":{\"type\":\"string\"},\"postalCode\":{\"type\":\"string\"},\"state\":{\"type\":\"string\"},\"stateCode\":{\"type\":\"string\"},\"street\":{\"type\":\"string\"},\"latitude\":{\"type\":\"string\"},\"longitude\":{\"type\":\"string\"}}},\"Phone\":{\"type\":\"string\",\"maxLength\":40},\"MobilePhone\":{\"type\":\"string\",\"maxLength\":40},\"Fax\":{\"type\":\"string\",\"maxLength\":40},\"Email\":{\"type\":\"string\",\"format\":\"email\",\"maxLength\":80},\"Website\":{\"type\":\"string\",\"maxLength\":255},\"PhotoUrl\":{\"type\":\"string\",\"maxLength\":255},\"Description\":{\"type\":\"string\",\"maxLength\":32000},\"LeadSource\":{\"type\":\"string\",\"maxLength\":40},\"Status\":{\"type\":\"string\",\"maxLength\":40},\"Industry\":{\"type\":\"string\",\"maxLength\":40},\"Rating\":{\"type\":\"string\",\"maxLength\":40},\"AnnualRevenue\":{\"type\":\"number\"},\"NumberOfEmployees\":{\"type\":\"integer\"},\"OwnerId\":{\"type\":\"string\",\"maxLength\":18},\"IsConverted\":{\"type\":\"boolean\"},\"ConvertedDate\":{\"type\":\"string\",\"format\":\"date\"},\"ConvertedAccountId\":{\"type\":\"string\",\"maxLength\":18},\"ConvertedContactId\":{\"type\":\"string\",\"maxLength\":18},\"ConvertedOpportunityId\":{\"type\":\"string\",\"maxLength\":18},\"IsUnreadByOwner\":{\"type\":\"boolean\"},\"CreatedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"CreatedById\":{\"type\":\"string\",\"maxLength\":18},\"LastModifiedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastModifiedById\":{\"type\":\"string\",\"maxLength\":18},\"SystemModstamp\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastActivityDate\":{\"type\":\"string\",\"format\":\"date\"},\"LastViewedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastReferencedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"Jigsaw\":{\"type\":\"string\",\"maxLength\":20},\"JigsawContactId\":{\"type\":\"string\",\"maxLength\":20},\"CleanStatus\":{\"type\":\"string\",\"maxLength\":40},\"CompanyDunsNumber\":{\"type\":\"string\",\"maxLength\":9},\"DandbCompanyId\":{\"type\":\"string\",\"maxLength\":18},\"EmailBouncedReason\":{\"type\":\"string\",\"maxLength\":255},\"EmailBouncedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"SICCode__c\":{\"type\":\"string\",\"maxLength\":15},\"ProductInterest__c\":{\"type\":\"string\",\"maxLength\":255},\"Primary__c\":{\"type\":\"string\",\"maxLength\":255},\"CurrentGenerators__c\":{\"type\":\"string\",\"maxLength\":100},\"NumberofLocations__c\":{\"type\":\"number\"}}}}}}}}",
+         "value": ""
+        }
+       },
+       "output": {
+        "output": {
+         "metadata": "{\"$schema\": \"http://json-schema.org/draft-04/schema#\",\"type\": \"object\",\"properties\": {\"hasErrors\": {\"type\": \"boolean\"},\"results\": {\"type\": \"array\",\"items\": {\"type\": \"object\",\"properties\": {\"id\": {\"type\": \"string\"},\"referenceId\": {\"type\": \"string\"}}}}}}",
+         "value": ""
+        }
+       },
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['input']['Lead']['records']",
+          "type": "array",
+          "value": "{\"to\":\"$INPUT['input']['Lead']['records']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['LastName']\",\"from\":\"$flow.name\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['Company']\",\"from\":\"N/A\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['Status']\",\"from\":\"New\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['Email']\",\"from\":\"$flow.email\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['LeadSource']\",\"from\":\"CAMPAIGN\",\"type\":\"primitive\"}]}"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "Return",
+      "name": "Return",
+      "activity": {
+       "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreturn",
+       "input": {
+        "mappings": [
+         {
+          "mapTo": "$INPUT['response']['code']",
+          "type": "expression",
+          "value": "200"
+         },
+         {
+          "mapTo": "$INPUT['response']['message']",
+          "type": "expression",
+          "value": "Lead successfully created"
+         },
+         {
+          "mapTo": "$INPUT['response']['id']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].output.results[0].id"
+         }
+        ]
+       },
+       "output": {}
+      }
+     },
+     {
+      "id": "ExistingLead",
+      "name": "ExistingLead",
+      "activity": {
+       "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreturn",
+       "input": {
+        "mappings": [
+         {
+          "mapTo": "$INPUT['response']['code']",
+          "type": "expression",
+          "value": "201"
+         },
+         {
+          "mapTo": "$INPUT['response']['message']",
+          "type": "expression",
+          "value": "Lead exists in records"
+         },
+         {
+          "mapTo": "$INPUT['response']['id']",
+          "type": "expression",
+          "value": "$activity[CheckCustomer].output.Lead.records[0].Id"
+         }
+        ]
+       },
+       "output": {}
+      }
+     }
+    ],
+    "links": [
+     {
+      "id": 1,
+      "from": "CheckCustomer",
+      "to": "CreateSFLead",
+      "type": "expression",
+      "value": "number.len($activity[CheckCustomer].output.Lead.records) == 0"
+     },
+     {
+      "id": 2,
+      "from": "CreateSFLead",
+      "to": "Return",
+      "type": "default"
+     },
+     {
+      "id": 3,
+      "from": "CheckCustomer",
+      "to": "ExistingLead",
+      "type": "expression",
+      "value": "number.len($activity[CheckCustomer].output.Lead.records) > 0"
+     }
+    ],
+    "errorHandler": {
+     "tasks": [
+      {
+       "id": "ReturnError",
+       "name": "ReturnError",
+       "activity": {
+        "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreturn",
+        "input": {
+         "mappings": [
+          {
+           "mapTo": "$INPUT['response']['code']",
+           "type": "expression",
+           "value": "400"
+          },
+          {
+           "mapTo": "$INPUT['response']['message']",
+           "type": "expression",
+           "value": "$error.message"
+          }
+         ]
+        },
+        "output": {}
+       }
+      }
+     ],
+     "links": []
+    },
+    "metadata": {
+     "input": [
+      {
+       "name": "name",
+       "type": "string"
+      },
+      {
+       "name": "email",
+       "type": "string"
+      }
+     ],
+     "output": [
+      {
+       "name": "response",
+       "type": "complex_object",
+       "value": {
+        "value": "",
+        "metadata": "{\"code\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}"
+       }
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "triggers": [
+  {
+   "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Lambda/trigger/lambda",
+   "name": "ReceiveLambdaInvocation",
+   "description": "",
+   "settings": {
+    "ConnectionName": {
+     "type": "flogo:connector",
+     "version": "1.0.0",
+     "name": "tibco-aws",
+     "inputMappings": {},
+     "outputMappings": {},
+     "iteratorMappings": {},
+     "title": "AWS Connector",
+     "description": "AWS Connection",
+     "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/AWS/connector",
+     "settings": [
+      {
+       "name": "name",
+       "type": "string",
+       "required": true,
+       "display": {
+        "name": "Name",
+        "visible": true
+       },
+       "value": "AWSConnection_USWest2"
+      },
+      {
+       "name": "description",
+       "type": "string",
+       "required": false,
+       "display": {
+        "name": "Description",
+        "visible": true
+       },
+       "value": ""
+      },
+      {
+       "name": "region",
+       "type": "string",
+       "required": true,
+       "allowed": [
+        "us-east-1",
+        "us-east-2",
+        "us-west-1",
+        "us-west-2",
+        "eu-central-1",
+        "eu-west-1",
+        "eu-west-2",
+        "eu-west-3",
+        "ap-south-1",
+        "ap-northeast-1",
+        "ap-northeast-2",
+        "ap-southeast-1",
+        "ap-southeast-2"
+       ],
+       "display": {
+        "name": "Region",
+        "description": "AWS Region",
+        "visible": true
+       },
+       "value": "us-west-2"
+      },
+      {
+       "name": "accessKey",
+       "type": "string",
+       "required": false,
+       "display": {
+        "name": "Access ID",
+        "visible": true
+       },
+       "value": "AKIAI4VN4S7L2VUU47TA"
+      },
+      {
+       "name": "secretKey",
+       "type": "string",
+       "required": false,
+       "display": {
+        "name": "Access Key",
+        "visible": true,
+        "type": "password"
+       },
+       "value": "SECRET:iB5ReWRvlAUq/8eiZnuvOEwnuCc3BJ1FArJW/ZXC7PSmmKLC+/9HXygNgHFNnOEcEDZqYkDhU5Q="
+      },
+      {
+       "name": "LAMBDA_CONNECTION_INFO",
+       "type": "string",
+       "required": true,
+       "display": {
+        "visible": false
+       },
+       "value": ""
+      }
+     ],
+     "outputs": [],
+     "inputs": [],
+     "handler": {
+      "settings": []
+     },
+     "reply": [],
+     "s3Prefix": "Tibco",
+     "key": "Tibco/AWS/connector/connector.json",
+     "display": {
+      "description": "AWS Connection",
+      "category": "AWS",
+      "visible": true,
+      "smallIcon": "icons/ic-flogo-aws-connector.png",
+      "largeIcon": "icons/ic-flogo-aws-connector@2x.png"
+     },
+     "actions": [
+      {
+       "name": "Save Connector"
+      }
+     ],
+     "feature": {},
+     "keyfield": "name",
+     "isValid": true,
+     "lastUpdatedTime": 1536281705758,
+     "createdTime": 1536281705758,
+     "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+     "subscriptionId": "TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD",
+     "id": "a8f8a3e0-b238-11e8-ad52-9b32babff397",
+     "connectorName": " ",
+     "connectorDescription": " "
+    },
+    "ExecutionRoleName": "FlogLambdaExecution_Rishi"
+   },
+   "id": "ReceiveLambdaInvocation",
+   "handlers": [
+    {
+     "description": "",
+     "settings": {},
+     "outputs": {
+      "Function": {
+       "metadata": "{\"$schema\": \"http://json-schema.org/draft-04/schema#\",\"type\": \"object\",\"properties\": {\"LogGroup\":{\"type\": \"string\"}, \"LogStream\":{\"type\":\"string\"}, \"Name\":{\"type\":\"string\"}, \"Version\":{\"type\":\"string\"}}}",
+       "value": ""
+      },
+      "Context": {
+       "metadata": "{\"$schema\": \"http://json-schema.org/draft-04/schema#\",\"type\": \"object\",\"properties\": {\"AwsRequestID\":{\"type\": \"string\"}, \"ARN\":{\"type\":\"string\"}}}",
+       "value": ""
+      },
+      "Identity": {
+       "metadata": "{\"$schema\": \"http://json-schema.org/draft-04/schema#\",\"type\": \"object\",\"properties\": {\"CognitoIdentityID\":{\"type\": \"string\"}, \"CognitoIdentityPoolID\":{\"type\":\"string\"}}}",
+       "value": ""
+      },
+      "ClientApp": {
+       "metadata": "{\"$schema\": \"http://json-schema.org/draft-04/schema#\",\"type\": \"object\",\"properties\": {\"installation_id\":{\"type\": \"string\"}, \"app_title\":{\"type\":\"string\"}, \"app_version_code\":{\"type\":\"string\"}, \"app_package_name\":{\"type\":\"string\"}}}",
+       "value": ""
+      },
+      "EventPayload": {
+       "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"}}}",
+       "value": ""
+      }
+     },
+     "action": {
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+      "data": {
+       "flowURI": "res://flow:CreateLead"
+      },
+      "mappings": {
+       "input": [
+        {
+         "mapTo": "$INPUT['name']",
+         "type": "expression",
+         "value": "$.EventPayload.name"
+        },
+        {
+         "mapTo": "$INPUT['email']",
+         "type": "expression",
+         "value": "$.EventPayload.email"
+        }
+       ],
+       "output": [
+        {
+         "mapTo": "$INPUT['data']['response']['id']",
+         "type": "expression",
+         "value": "$.response.id"
+        },
+        {
+         "mapTo": "$INPUT['data']['response']['message']",
+         "type": "expression",
+         "value": "$.response.message"
+        },
+        {
+         "mapTo": "$INPUT['data']['response']['code']",
+         "type": "expression",
+         "value": "$.response.code"
+        }
+       ]
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "ui": "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",
+ "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1wbHVnaW5zLmdpdC9jb250cmlidXRpb25zL1NhbGVzZm9yY2UiLCJzM2xvY2F0aW9uIjoiVGliY28vU2FsZXNmb3JjZSJ9LHsicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1wbHVnaW5zLmdpdC9jb250cmlidXRpb25zL0xhbWJkYSIsInMzbG9jYXRpb24iOiJUaWJjby9MYW1iZGEifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktY29udHJpYi5naXQvY29udHJpYnV0aW9ucy9HZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwifV0="
+}

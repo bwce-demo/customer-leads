@@ -1,0 +1,336 @@
+{
+ "name": "EmailNotification",
+ "description": " ",
+ "version": "1.0.0",
+ "type": "flogo:app",
+ "appModel": "1.0.0",
+ "resources": [
+  {
+   "id": "flow:NotifyMarketingTeam",
+   "data": {
+    "name": "NotifyMarketingTeam",
+    "description": "",
+    "tasks": [
+     {
+      "id": "SendMail",
+      "name": "SendMail",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/sendmail",
+       "input": {
+        "Server": "smtp.gmail.com",
+        "Port": 587,
+        "Connection Security": "TLS",
+        "Username": "rpalve@tibco.com",
+        "Password": "SECRET:R3+riKI6WDfUpeV+hRla6aW4UjxLAFzC9V8JWULsaLU="
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['recipients']",
+          "type": "expression",
+          "value": "rpalve@tibco.com"
+         },
+         {
+          "mapTo": "$INPUT['subject']",
+          "type": "expression",
+          "value": "[Alert] New Lead Generated"
+         },
+         {
+          "mapTo": "$INPUT['message']",
+          "type": "expression",
+          "value": "string.concat(\"New Salesforce Lead - \", $flow.id, \" is generated for Customer - \", $flow.name)"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "PostNotifiedEvent",
+      "name": "PostNotifiedEvent",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-tcta.git/src/app/AuditSafe/activity/txcreate",
+       "input": {
+        "input": {
+         "metadata": "",
+         "value": ""
+        }
+       },
+       "output": {
+        "output": {
+         "metadata": "",
+         "value": ""
+        }
+       },
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['input']['transaction_id']",
+          "type": "expression",
+          "value": "$flow.id"
+         },
+         {
+          "mapTo": "$INPUT['input']['biz_proc']",
+          "type": "expression",
+          "value": "Bank Marketing Campaign"
+         },
+         {
+          "mapTo": "$INPUT['input']['audit_event']",
+          "type": "expression",
+          "value": "MARKETING TEAM NOTIFICATION"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_desc']",
+          "type": "expression",
+          "value": "Marketing team has been notified about the lead"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_timestamp']",
+          "type": "expression",
+          "value": "datetime.now()"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_status']",
+          "type": "expression",
+          "value": "COMPLETED"
+         },
+         {
+          "mapTo": "$INPUT['input']['extra_props']",
+          "type": "array",
+          "value": "{\"to\":\"$INPUT['input']['extra_props']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['prop_name']\",\"from\":\"Lead Name\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['prop_value']\",\"from\":\"$flow.name\",\"type\":\"primitive\"}]}"
+         },
+         {
+          "mapTo": "$INPUT['input']['parent_event_id']",
+          "type": "expression",
+          "value": "2"
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "links": [
+     {
+      "id": 1,
+      "from": "SendMail",
+      "to": "PostNotifiedEvent",
+      "type": "default"
+     }
+    ],
+    "errorHandler": {
+     "tasks": [
+      {
+       "id": "PostNotifcationFailedEvent",
+       "name": "PostNotifcationFailedEvent",
+       "activity": {
+        "ref": "git.tibco.com/git/product/ipaas/wi-tcta.git/src/app/AuditSafe/activity/txcreate",
+        "input": {
+         "input": {
+          "metadata": "",
+          "value": ""
+         }
+        },
+        "output": {
+         "output": {
+          "metadata": "",
+          "value": ""
+         }
+        },
+        "mappings": {
+         "input": [
+          {
+           "mapTo": "$INPUT['input']['transaction_id']",
+           "type": "expression",
+           "value": "$flow.id"
+          },
+          {
+           "mapTo": "$INPUT['input']['biz_proc']",
+           "type": "expression",
+           "value": "Bank Marketing Campaign"
+          },
+          {
+           "mapTo": "$INPUT['input']['audit_event']",
+           "type": "expression",
+           "value": "MARKETING TEAM NOTIFICATION"
+          },
+          {
+           "mapTo": "$INPUT['input']['event_desc']",
+           "type": "expression",
+           "value": "string.concat(\"Failed to send email notifcation to Marketing team due to error - \", $error.message)"
+          },
+          {
+           "mapTo": "$INPUT['input']['event_timestamp']",
+           "type": "expression",
+           "value": "datetime.now()"
+          },
+          {
+           "mapTo": "$INPUT['input']['event_status']",
+           "type": "expression",
+           "value": "FAILED"
+          },
+          {
+           "mapTo": "$INPUT['input']['extra_props']",
+           "type": "array",
+           "value": "{\"to\":\"$INPUT['input']['extra_props']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['prop_name']\",\"from\":\"Lead Name\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['prop_value']\",\"from\":\"$flow.name\",\"type\":\"primitive\"}]}"
+          },
+          {
+           "mapTo": "$INPUT['input']['parent_event_id']",
+           "type": "expression",
+           "value": "2"
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "links": []
+    },
+    "metadata": {
+     "input": [
+      {
+       "name": "name",
+       "type": "string"
+      },
+      {
+       "name": "id",
+       "type": "string"
+      }
+     ],
+     "output": []
+    }
+   }
+  }
+ ],
+ "triggers": [
+  {
+   "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Messaging/trigger/tcmtrigger",
+   "name": "MessageSubscriber",
+   "description": "",
+   "settings": {},
+   "id": "MessageSubscriber",
+   "handlers": [
+    {
+     "description": "",
+     "settings": {
+      "tcmConnection": {
+       "id": "b3b11e30-728b-11e8-95c1-b9d1fb6630b4",
+       "type": "flogo:connector",
+       "version": "1.0.0",
+       "name": "tibco-eftl",
+       "inputMappings": {},
+       "outputMappings": {},
+       "iteratorMappings": {},
+       "title": "TIBCO Cloud Messaging Connector",
+       "description": "This is TIBCO Cloud Messaging connector",
+       "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Messaging/connector/tcm",
+       "settings": [
+        {
+         "name": "name",
+         "type": "string",
+         "required": true,
+         "display": {
+          "name": "Connection Name",
+          "description": "Name of the connection"
+         },
+         "value": "TCM Connection"
+        },
+        {
+         "name": "description",
+         "type": "string",
+         "display": {
+          "name": "Description",
+          "description": "Connection description"
+         },
+         "value": ""
+        },
+        {
+         "name": "url",
+         "type": "string",
+         "required": true,
+         "display": {
+          "name": "Connection URL",
+          "description": "TIBCO Cloud Messaging connection url"
+         },
+         "value": "wss://messaging.cloud.tibco.com/tcm/TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD/channel"
+        },
+        {
+         "name": "authKey",
+         "type": "string",
+         "required": true,
+         "display": {
+          "name": "Authentication Key",
+          "description": "Authentication key",
+          "type": "password"
+         },
+         "value": "SECRET:9nfGBxgNjpUR+EvVw9WdD+oaHrSjBvfmWHzxa9IDZ3HxgOnZE/YqgTIrmLqrDud0"
+        }
+       ],
+       "outputs": [],
+       "inputs": [],
+       "handler": {
+        "settings": []
+       },
+       "reply": [],
+       "s3Prefix": "Tibco",
+       "key": "Tibco/Messaging/connector/tcm/connector.json",
+       "display": {
+        "description": "This is TIBCO Cloud Messaging connector",
+        "category": "Messaging",
+        "visible": true,
+        "smallIcon": "tcm.png"
+       },
+       "actions": [
+        {
+         "name": "Save",
+         "display": {
+          "readonly": false,
+          "valid": true,
+          "visible": true
+         }
+        }
+       ],
+       "feature": {},
+       "keyfield": "name",
+       "isValid": true,
+       "lastUpdatedTime": 1536046730282,
+       "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+       "connectorName": "TCM Connection",
+       "connectorDescription": " "
+      },
+      "destination": "customerleads",
+      "matcher": ""
+     },
+     "outputs": {
+      "message": {
+       "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}",
+       "value": ""
+      }
+     },
+     "action": {
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+      "data": {
+       "flowURI": "res://flow:NotifyMarketingTeam"
+      },
+      "mappings": {
+       "input": [
+        {
+         "mapTo": "$INPUT['name']",
+         "type": "expression",
+         "value": "$.message.name"
+        },
+        {
+         "mapTo": "$INPUT['id']",
+         "type": "expression",
+         "value": "$.message.id"
+        }
+       ],
+       "output": []
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "ui": "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",
+ "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1wbHVnaW5zLmdpdC9jb250cmlidXRpb25zL01lc3NhZ2luZyIsInMzbG9jYXRpb24iOiJUaWJjby9NZXNzYWdpbmcifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktY29udHJpYi5naXQvY29udHJpYnV0aW9ucy9HZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktdGN0YS5naXQvc3JjL2FwcC9BdWRpdFNhZmUiLCJzM2xvY2F0aW9uIjoiVGliY28vQXVkaXRTYWZlIn1d"
+}

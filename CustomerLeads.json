@@ -1,0 +1,1541 @@
+{
+ "name": "CustomerLeads",
+ "description": " ",
+ "version": "1.0.0",
+ "type": "flogo:app",
+ "appModel": "1.0.0",
+ "resources": [
+  {
+   "id": "flow:GetLeads",
+   "data": {
+    "name": "GetLeads",
+    "description": null,
+    "tasks": [
+     {
+      "id": "QueryLeads",
+      "name": "QueryLeads",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Salesforce/activity/query",
+       "input": {
+        "Connection Name": {
+         "title": "Salesforce Connector",
+         "name": "tibco-salesforce",
+         "version": "1.0.0",
+         "type": "flogo:connector",
+         "author": "TIBCO Software Inc.",
+         "display": {
+          "description": "SalesForce Connector",
+          "visible": true,
+          "category": "Salesforce",
+          "smallIcon": "icons/ic-tibco-salesforce.png",
+          "largeIcon": "icons/ic-tibco-salesforce@2x.png"
+         },
+         "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Salesforce/connector",
+         "keyfield": "name",
+         "settings": [
+          {
+           "name": "name",
+           "type": "string",
+           "required": true,
+           "inputType": "text",
+           "display": {
+            "name": "Name",
+            "visible": true,
+            "placeholder": "Connection name"
+           },
+           "value": "SalesforceConnection"
+          },
+          {
+           "name": "description",
+           "type": "string",
+           "required": false,
+           "inputType": "text",
+           "display": {
+            "name": "Description",
+            "description": "Connection description",
+            "visible": true
+           },
+           "value": ""
+          },
+          {
+           "name": "environment",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Environment",
+            "description": "Salesforce environment type",
+            "type": "dropdown",
+            "selection": "single",
+            "readonly": false,
+            "valid": true,
+            "visible": true
+           },
+           "allowed": [
+            "Production",
+            "Sandbox"
+           ],
+           "value": "Production"
+          },
+          {
+           "name": "clientId",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Client Id",
+            "description": "Oauth client Id",
+            "visible": false,
+            "readonly": false,
+            "valid": true
+           },
+           "value": ""
+          },
+          {
+           "name": "clientSecret",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Client Secret",
+            "type": "password",
+            "description": "OAuth client secret",
+            "visible": false,
+            "readonly": false,
+            "valid": true
+           },
+           "value": "SECRET:gmi1f8XBe0uz4k2+aWPfXA=="
+          },
+          {
+           "name": "apiVersion",
+           "type": "string",
+           "required": true,
+           "inputType": "list",
+           "allowed": [
+            "v39.0",
+            "v38.0",
+            "v37.0",
+            "v36.0"
+           ],
+           "value": "v39.0",
+           "display": {
+            "name": "API Version",
+            "visible": false
+           }
+          },
+          {
+           "name": "authType",
+           "type": "string",
+           "required": true,
+           "allowed": [
+            "BASIC",
+            "OAUTH1",
+            "OAUTH2",
+            "OAUTH2_TWOLEG"
+           ],
+           "value": "OAUTH2",
+           "display": {
+            "visible": false
+           }
+          },
+          {
+           "name": "WI_STUDIO_OAUTH_CONNECTOR_INFO",
+           "type": "string",
+           "required": true,
+           "display": {
+            "visible": false,
+            "readonly": false,
+            "valid": false
+           },
+           "value": "SECRET:jz0O6JhxqsMkpwSsOlWdA5bAVDdcN9Iosgmg550D8zczR5gTiQsK1C+QKMJSse/I1Hzo3odqn++1eWxjzsUYPXkFJ++TuZ1VgCij19tH+WsIPKpAYMm6OjsFd0AnFY89qIDCAB/YHWhKcHb/PURQrfFMyFtaCrC0fy2sVa6Hhcjx3CRH9eQUQYVrFvlVzFCCnpAhe/oegUHy1nreBStblGPKitEsVsL8QU0Y73MaVGKmpXH3SUYeknI6DI1RG8XIrMfC8Ls5dB3AmDxMozulZ/Ge2e+olgr4WBLkPXgY20pDyB5sokkc+yYAqWnZHKLKBaj7mHsfq9HX2iVBZdwp/X7e4Ir7e89zW/W/lr8z9fT8u3/Q3Z9i8d1qQYhEwEZObUSsoy0lJdIIOoWmRPC5FFlTAplGyQIW1UV+QLclTm6PvIMBglegjZm3kktn6g/E3uSGwrAZpFTDpw/VqVxjQuMzDqIndbYwI6tvS13hzC/ZVftaX5CngozXAuK90+HzX/oMRAETVt6SzgB4EgkkBpDLQUEaN6CTZZMDdBkVPLlAK3hfMNxpPExxlWrHBDqIIORN4rC+DPsI1jPhYBkOZdmsosY5F10JqQjdrIvY+XNAc0doLdv6kJk9Nl8fjIzN0oXpcnXkxjDsdXmptrLVtsuRaIlzhe2UqaASa2JMh6QSaay5Qs24qAXPW5vJbfibOkUCnPtOEdNNLXfQZmC+uLo4RkkzvJfHpRAhy4MlXsN2DC1jsJ5/IQgrtSmLF7kbwoFWJMC8joD+hJNHGZAzjOL7APSy6bL+MhRTNAwtQDlyqKzz7mEDBAGdE9vvtuuhl+GnhBr90ovSGe4pjx08xLO+lGJfBI1qW6ncIbab0+glwBPDTyUaWFVGTzmZkWkoP9acZQ87cjIcs5QqzZ+sxeLjql1//i/nJXGkv8XB91JJ/GVcQd3ChRi0GQgC9IEtVcpqL5FoFnGJfwlKj3VKGwUm0ey9lgCSHvgsoq6I5gZzMeRwdwO50Ovb/gEsN2bq/3bR3oxDk5zbwhVsp/a5CDl/TIIGecYF3xO9MA7KKJCZNSS3GXCp7B0wEWNEORW0fDPf5yEVibe4XVcRVSMkiYgh6RDIv7lH8mdQhV5+rhK8eNq5xRiil5XgFaemUaoEW+9ySaNeAfbsc5pPTk3LnWPQfX/i76226ttmjbfSA2PHmcxXGYw27zxhX4XEwA+Zq2wS5Fv4FsfQ4f83E4R1PLY/v9T2s32K2fnHniWjz8Wgx8bdHjDo/fH/pb0TXu+0thzDDQ9bf5IwvRQ1GhXDz8eaUROclaZnyOMtDlpFjY5CVItzmhUeizSii9CQQIJ7Y2lJ0FR+VGa5bQXt+do1jY6i7hqgahvC1UR4YGTqHfSpARyQc07p02vuJut2f0e0RJJblsIK0AfZ1+bkajAl/UpUozoCVAv2dx0+uzaAdGR0O2Ot7G0ZYPqgPTuVQRxQdo2WjluqucQ8cx/YUKFgSSjUmZvP0HNqT70aOLqJxYTUcfgQdSON6JGoK9ix2JLadMGnXyjH/NvBQwyW1eZUteyNn3b0H3JIh6WS1SCdSvs/g5jwchGvPTIMI0YUV2/VG+5iyCa4Dmp5yXhEddc6p+FeCzB2OQnkow1215CDh7dCHfb5wQg6BNF/CccEAcxSKrMuSIV1mFI8reCF7S0w5GAmPI8Hk2o5UeiFSM9TlyxzgjE0MT78olmgdCilER8Lf+/Qneah3XKDdC/y/DORRgny4VU1KBIQD8/b/SOSHaHzILgEOn+nlAq1cRlNU0qFCJgrc5P7U27THmat7CL3MtkGbJKjoV5ST1b4JRUYvkkLtH+atF6TyJW6Gd2axv+sSdEHgh9z+/tYFtkBtP/Lb17xUePDQMY8RfyeuUy1P6m+mqjOmXkOsQViZN01s3X6wGnsIk6xZytkcb4nZ3aii5sYLGw/CtuCzw8v6FuieFdSsjX1yMlVRdIoK5Pjv+tqwtuawccG+SKz4kv6wdhLvTXcdsWQOjorMJiXuLVYfmEjR5zCC++qsJ9PQZxIXw/wvzp8XGd0majYQ4do35omhsA1cdELId+FrPi8EFQoT6fO533wS3MIiJhjdxaOnA63HO2QF2fwBad0BydBmZY4h4vbLUEysXdqeOocj305RQ5jmEq51eTSprDt8BkKst6vpELmwgEj5oKMs2aFqdwifnywNcKugI8kBtfbl7dumC8DU6R11EOCWDQdoSMHuzPLSpEuEqEkr1alOMvZWdLev6COF/M7gAsSNp31lAbGXHKzsVioRUEA45/XbsEx65ksjpVjux7xiA4shEXE2z0s2Cpz4W9BzYpjb80="
+          }
+         ],
+         "actions": [
+          {
+           "name": "Login"
+          }
+         ],
+         "s3Prefix": "Tibco",
+         "lastModifiedDate": "2018-08-23T18:24:04.000Z",
+         "key": "Tibco/Salesforce/connector/salesforce/connector.json",
+         "isValid": true,
+         "lastUpdatedTime": 1536278816585,
+         "createdTime": 1536267556335,
+         "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+         "subscriptionId": "TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD",
+         "id": "b74207f0-b217-11e8-9565-b9f5f02a2a5b",
+         "connectorName": "SalesforceConnection",
+         "connectorDescription": " "
+        },
+        "Object Name": "Lead"
+       },
+       "output": {
+        "output": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Lead\":{\"type\":\"object\",\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Id\":{\"type\":\"string\",\"maxLength\":18},\"IsDeleted\":{\"type\":\"boolean\"},\"MasterRecordId\":{\"type\":\"string\",\"maxLength\":18},\"LastName\":{\"type\":\"string\",\"maxLength\":80},\"FirstName\":{\"type\":\"string\",\"maxLength\":40},\"Salutation\":{\"type\":\"string\",\"maxLength\":40},\"Name\":{\"type\":\"string\",\"maxLength\":121},\"Title\":{\"type\":\"string\",\"maxLength\":128},\"Company\":{\"type\":\"string\",\"maxLength\":255},\"Street\":{\"type\":\"string\",\"maxLength\":255},\"City\":{\"type\":\"string\",\"maxLength\":40},\"State\":{\"type\":\"string\",\"maxLength\":80},\"PostalCode\":{\"type\":\"string\",\"maxLength\":20},\"Country\":{\"type\":\"string\",\"maxLength\":80},\"Latitude\":{\"type\":\"number\"},\"Longitude\":{\"type\":\"number\"},\"GeocodeAccuracy\":{\"type\":\"string\",\"maxLength\":40},\"Address\":{\"type\":\"object\",\"properties\":{\"city\":{\"type\":\"string\"},\"country\":{\"type\":\"string\"},\"countryCode\":{\"type\":\"string\"},\"geocodeAccuracy\":{\"type\":\"string\"},\"postalCode\":{\"type\":\"string\"},\"state\":{\"type\":\"string\"},\"stateCode\":{\"type\":\"string\"},\"street\":{\"type\":\"string\"},\"latitude\":{\"type\":\"string\"},\"longitude\":{\"type\":\"string\"}}},\"Phone\":{\"type\":\"string\",\"maxLength\":40},\"MobilePhone\":{\"type\":\"string\",\"maxLength\":40},\"Fax\":{\"type\":\"string\",\"maxLength\":40},\"Email\":{\"type\":\"string\",\"format\":\"email\",\"maxLength\":80},\"Website\":{\"type\":\"string\",\"maxLength\":255},\"PhotoUrl\":{\"type\":\"string\",\"maxLength\":255},\"Description\":{\"type\":\"string\",\"maxLength\":32000},\"LeadSource\":{\"type\":\"string\",\"maxLength\":40},\"Status\":{\"type\":\"string\",\"maxLength\":40},\"Industry\":{\"type\":\"string\",\"maxLength\":40},\"Rating\":{\"type\":\"string\",\"maxLength\":40},\"AnnualRevenue\":{\"type\":\"number\"},\"NumberOfEmployees\":{\"type\":\"integer\"},\"OwnerId\":{\"type\":\"string\",\"maxLength\":18},\"IsConverted\":{\"type\":\"boolean\"},\"ConvertedDate\":{\"type\":\"string\",\"format\":\"date\"},\"ConvertedAccountId\":{\"type\":\"string\",\"maxLength\":18},\"ConvertedContactId\":{\"type\":\"string\",\"maxLength\":18},\"ConvertedOpportunityId\":{\"type\":\"string\",\"maxLength\":18},\"IsUnreadByOwner\":{\"type\":\"boolean\"},\"CreatedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"CreatedById\":{\"type\":\"string\",\"maxLength\":18},\"LastModifiedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastModifiedById\":{\"type\":\"string\",\"maxLength\":18},\"SystemModstamp\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastActivityDate\":{\"type\":\"string\",\"format\":\"date\"},\"LastViewedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"LastReferencedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"Jigsaw\":{\"type\":\"string\",\"maxLength\":20},\"JigsawContactId\":{\"type\":\"string\",\"maxLength\":20},\"CleanStatus\":{\"type\":\"string\",\"maxLength\":40},\"CompanyDunsNumber\":{\"type\":\"string\",\"maxLength\":9},\"DandbCompanyId\":{\"type\":\"string\",\"maxLength\":18},\"EmailBouncedReason\":{\"type\":\"string\",\"maxLength\":255},\"EmailBouncedDate\":{\"type\":\"string\",\"format\":\"date-time\"},\"SICCode__c\":{\"type\":\"string\",\"maxLength\":15},\"ProductInterest__c\":{\"type\":\"string\",\"maxLength\":255},\"Primary__c\":{\"type\":\"string\",\"maxLength\":255},\"CurrentGenerators__c\":{\"type\":\"string\",\"maxLength\":100},\"NumberofLocations__c\":{\"type\":\"number\"}}}},\"done\":{\"type\":\"boolean\"},\"totalSize\":{\"type\":\"number\"}}}}}",
+         "value": ""
+        }
+       },
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['query']",
+          "type": "expression",
+          "value": "SELECT Email, LastName FROM Lead WHERE LeadSource = 'CAMPAIGN'"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "ReturnAllLeads",
+      "name": "ReturnAllLeads",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+       "input": {
+        "Reply": "Success with Data",
+        "code": 200,
+        "message": "Ok",
+        "data": {
+         "metadata": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"customers\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": \"string\",\n            \"default\": \"\"\n          },\n          \"email\": {\n            \"type\": \"string\",\n            \"default\": \"\"\n          }\n        }\n      }\n    }\n  }\n}",
+         "value": ""
+        }
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['data']['customers']",
+          "type": "array",
+          "value": "{\"to\":\"$INPUT['data']['customers']\",\"from\":\"$activity[QueryLeads].output.Lead.records\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['email']\",\"from\":\"$.Email\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['name']\",\"from\":\"$.LastName\",\"type\":\"primitive\"}]}"
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "links": [
+     {
+      "id": 1,
+      "from": "QueryLeads",
+      "to": "ReturnAllLeads",
+      "type": "default"
+     }
+    ],
+    "metadata": {
+     "input": [],
+     "output": []
+    },
+    "explicitReply": true
+   }
+  },
+  {
+   "id": "flow:CreateLeads",
+   "data": {
+    "name": "CreateLeads",
+    "description": null,
+    "tasks": [
+     {
+      "id": "CreateSFLead",
+      "name": "CreateSFLead",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Lambda/activity/invokesync",
+       "input": {
+        "ConnectionName": {
+         "type": "flogo:connector",
+         "version": "1.0.0",
+         "name": "tibco-aws",
+         "inputMappings": {},
+         "outputMappings": {},
+         "iteratorMappings": {},
+         "title": "AWS Connector",
+         "description": "AWS Connection",
+         "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/AWS/connector",
+         "settings": [
+          {
+           "name": "name",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Name",
+            "visible": true
+           },
+           "value": "AWSConnection_USWest2"
+          },
+          {
+           "name": "description",
+           "type": "string",
+           "required": false,
+           "display": {
+            "name": "Description",
+            "visible": true
+           },
+           "value": ""
+          },
+          {
+           "name": "region",
+           "type": "string",
+           "required": true,
+           "allowed": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "eu-central-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "ap-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-southeast-1",
+            "ap-southeast-2"
+           ],
+           "display": {
+            "name": "Region",
+            "description": "AWS Region",
+            "visible": true
+           },
+           "value": "us-west-2"
+          },
+          {
+           "name": "accessKey",
+           "type": "string",
+           "required": false,
+           "display": {
+            "name": "Access ID",
+            "visible": true
+           },
+           "value": "AKIAI4VN4S7L2VUU47TA"
+          },
+          {
+           "name": "secretKey",
+           "type": "string",
+           "required": false,
+           "display": {
+            "name": "Access Key",
+            "visible": true,
+            "type": "password"
+           },
+           "value": "SECRET:9/L3m3vQvjISHvnuxGr4zSHRtuD1zvQVMQ8IVsqdpBpF8KCjQc507X7U/h+aNcEEmju1hFMglI0="
+          },
+          {
+           "name": "LAMBDA_CONNECTION_INFO",
+           "type": "string",
+           "required": true,
+           "display": {
+            "visible": false
+           },
+           "value": ""
+          }
+         ],
+         "outputs": [],
+         "inputs": [],
+         "handler": {
+          "settings": []
+         },
+         "reply": [],
+         "s3Prefix": "Tibco",
+         "key": "Tibco/AWS/connector/connector.json",
+         "display": {
+          "description": "AWS Connection",
+          "category": "AWS",
+          "visible": true,
+          "smallIcon": "icons/ic-flogo-aws-connector.png",
+          "largeIcon": "icons/ic-flogo-aws-connector@2x.png"
+         },
+         "actions": [
+          {
+           "name": "Save Connector"
+          }
+         ],
+         "feature": {},
+         "keyfield": "name",
+         "isValid": true,
+         "lastUpdatedTime": 1536281705758,
+         "createdTime": 1536281705758,
+         "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+         "subscriptionId": "TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD",
+         "id": "a8f8a3e0-b238-11e8-ad52-9b32babff397",
+         "connectorName": " ",
+         "connectorDescription": " "
+        },
+        "arn": "arn:aws:lambda:us-west-2:928133119666:function:SalesLeadsFunction-boqr5nolkfzi4hkzg2wrj5wykgah44xr",
+        "payload": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"}}}",
+         "value": ""
+        }
+       },
+       "output": {
+        "result": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"response\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}}}",
+         "value": ""
+        }
+       },
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['payload']['name']",
+          "type": "expression",
+          "value": "$flow.body.customer.name"
+         },
+         {
+          "mapTo": "$INPUT['payload']['email']",
+          "type": "expression",
+          "value": "$flow.body.customer.email"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "PostSalesLeadEvent",
+      "name": "PostSalesLeadEvent",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-tcta.git/src/app/AuditSafe/activity/txcreate",
+       "input": {
+        "input": {
+         "metadata": "",
+         "value": ""
+        }
+       },
+       "output": {
+        "output": {
+         "metadata": "",
+         "value": ""
+        }
+       },
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['input']['transaction_id']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].result.response.id"
+         },
+         {
+          "mapTo": "$INPUT['input']['biz_proc']",
+          "type": "expression",
+          "value": "Bank Marketing Campaign"
+         },
+         {
+          "mapTo": "$INPUT['input']['audit_event']",
+          "type": "expression",
+          "value": "SALES LEAD"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_desc']",
+          "type": "expression",
+          "value": "Sales lead created"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_timestamp']",
+          "type": "expression",
+          "value": "datetime.now()"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_status']",
+          "type": "expression",
+          "value": "CREATED"
+         },
+         {
+          "mapTo": "$INPUT['input']['extra_props']",
+          "type": "array",
+          "value": "{\"to\":\"$INPUT['input']['extra_props']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['prop_name']\",\"from\":\"Lead Name\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['prop_value']\",\"from\":\"$flow.body.customer.name\",\"type\":\"primitive\"}]}"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_id']",
+          "type": "expression",
+          "value": "1"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "PostEmailNotificationEvent",
+      "name": "PostEmailNotificationEvent",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-tcta.git/src/app/AuditSafe/activity/txcreate",
+       "input": {
+        "input": {
+         "metadata": "",
+         "value": ""
+        }
+       },
+       "output": {
+        "output": {
+         "metadata": "",
+         "value": ""
+        }
+       },
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['input']['transaction_id']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].result.response.id"
+         },
+         {
+          "mapTo": "$INPUT['input']['biz_proc']",
+          "type": "expression",
+          "value": "Bank Marketing Campaign"
+         },
+         {
+          "mapTo": "$INPUT['input']['audit_event']",
+          "type": "expression",
+          "value": "MARKETING TEAM NOTIFICATION"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_desc']",
+          "type": "expression",
+          "value": "Sending lead details to marketing head"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_timestamp']",
+          "type": "expression",
+          "value": "datetime.now()"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_status']",
+          "type": "expression",
+          "value": "PENDING"
+         },
+         {
+          "mapTo": "$INPUT['input']['extra_props']",
+          "type": "array",
+          "value": "{\"to\":\"$INPUT['input']['extra_props']\",\"from\":\"NEWARRAY\",\"type\":\"foreach\",\"fields\":[{\"to\":\"$INPUT.$$['prop_name']\",\"from\":\"Lead Name\",\"type\":\"primitive\"},{\"to\":\"$INPUT.$$['prop_value']\",\"from\":\"$flow.body.customer.name\",\"type\":\"primitive\"}]}"
+         },
+         {
+          "mapTo": "$INPUT['input']['event_id']",
+          "type": "expression",
+          "value": "2"
+         },
+         {
+          "mapTo": "$INPUT['input']['parent_event_id']",
+          "type": "expression",
+          "value": "1"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "SendLeadNotification",
+      "name": "SendLeadNotification",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Messaging/activity/tcmpublisher",
+       "input": {
+        "tcmConnection": {
+         "id": "b3b11e30-728b-11e8-95c1-b9d1fb6630b4",
+         "type": "flogo:connector",
+         "version": "1.0.0",
+         "name": "tibco-eftl",
+         "inputMappings": {},
+         "outputMappings": {},
+         "iteratorMappings": {},
+         "title": "TIBCO Cloud Messaging Connector",
+         "description": "This is TIBCO Cloud Messaging connector",
+         "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Messaging/connector/tcm",
+         "settings": [
+          {
+           "name": "name",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Connection Name",
+            "description": "Name of the connection"
+           },
+           "value": "TCM Connection"
+          },
+          {
+           "name": "description",
+           "type": "string",
+           "display": {
+            "name": "Description",
+            "description": "Connection description"
+           },
+           "value": ""
+          },
+          {
+           "name": "url",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Connection URL",
+            "description": "TIBCO Cloud Messaging connection url"
+           },
+           "value": "wss://messaging.cloud.tibco.com/tcm/TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD/channel"
+          },
+          {
+           "name": "authKey",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Authentication Key",
+            "description": "Authentication key",
+            "type": "password"
+           },
+           "value": "SECRET:d8+WTFURekILGEKnZRVvAHPm4csF3b38du8scs50ioEzwvXpzbcjl3NORo177nOd"
+          }
+         ],
+         "outputs": [],
+         "inputs": [],
+         "handler": {
+          "settings": []
+         },
+         "reply": [],
+         "s3Prefix": "Tibco",
+         "key": "Tibco/Messaging/connector/tcm/connector.json",
+         "display": {
+          "description": "This is TIBCO Cloud Messaging connector",
+          "category": "Messaging",
+          "visible": true,
+          "smallIcon": "tcm.png"
+         },
+         "actions": [
+          {
+           "name": "Save",
+           "display": {
+            "readonly": false,
+            "valid": true,
+            "visible": true
+           }
+          }
+         ],
+         "feature": {},
+         "keyfield": "name",
+         "isValid": true,
+         "lastUpdatedTime": 1536046730282,
+         "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+         "connectorName": "TCM Connection",
+         "connectorDescription": " "
+        },
+        "message": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}",
+         "value": ""
+        }
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['destination']",
+          "type": "expression",
+          "value": "customerleads"
+         },
+         {
+          "mapTo": "$INPUT['message']['name']",
+          "type": "expression",
+          "value": "$flow.body.customer.name"
+         },
+         {
+          "mapTo": "$INPUT['message']['id']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].result.response.id"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "Success",
+      "name": "Success",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+       "input": {
+        "Reply": "Success with Data",
+        "code": 200,
+        "message": "Ok",
+        "data": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"response\":{\"type\":\"object\",\"properties\":{\"message\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}}}",
+         "value": ""
+        }
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['data']['response']['id']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].result.response.id"
+         },
+         {
+          "mapTo": "$INPUT['data']['response']['message']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].result.response.message"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "Error",
+      "name": "Error",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+       "input": {
+        "Reply": "Error with Message",
+        "code": 500,
+        "message": "Ok"
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['message']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].result.response.message"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "ExistingLead",
+      "name": "ExistingLead",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+       "input": {
+        "Reply": "Success with Data",
+        "code": 200,
+        "message": "Ok",
+        "data": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"message\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}",
+         "value": ""
+        }
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['data']['id']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].result.response.id"
+         },
+         {
+          "mapTo": "$INPUT['data']['message']",
+          "type": "expression",
+          "value": "$activity[CreateSFLead].result.response.message"
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "links": [
+     {
+      "id": 1,
+      "from": "CreateSFLead",
+      "to": "PostSalesLeadEvent",
+      "type": "expression",
+      "value": "$activity[CreateSFLead].result.response.code == \"200\""
+     },
+     {
+      "id": 2,
+      "from": "PostSalesLeadEvent",
+      "to": "PostEmailNotificationEvent",
+      "type": "default"
+     },
+     {
+      "id": 3,
+      "from": "PostEmailNotificationEvent",
+      "to": "SendLeadNotification",
+      "type": "default"
+     },
+     {
+      "id": 4,
+      "from": "SendLeadNotification",
+      "to": "Success",
+      "type": "default"
+     },
+     {
+      "id": 5,
+      "from": "CreateSFLead",
+      "to": "Error",
+      "type": "expression",
+      "value": "$activity[CreateSFLead].result.response.code == \"400\""
+     },
+     {
+      "id": 6,
+      "from": "CreateSFLead",
+      "to": "ExistingLead",
+      "type": "expression",
+      "value": "$activity[CreateSFLead].result.response.code == \"201\""
+     }
+    ],
+    "errorHandler": {
+     "tasks": [
+      {
+       "id": "Error1",
+       "name": "Error1",
+       "activity": {
+        "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+        "input": {
+         "Reply": "Error with Message",
+         "code": 500,
+         "message": "Ok"
+        },
+        "output": {},
+        "mappings": {
+         "input": [
+          {
+           "mapTo": "$INPUT['message']",
+           "type": "expression",
+           "value": "$error.message"
+          }
+         ]
+        }
+       }
+      }
+     ],
+     "links": []
+    },
+    "metadata": {
+     "input": [],
+     "output": []
+    },
+    "explicitReply": true
+   }
+  },
+  {
+   "id": "flow:LeadSubscriber",
+   "data": {
+    "name": "LeadSubscriber",
+    "description": "",
+    "tasks": [
+     {
+      "id": "InvokeLambdaFunction",
+      "name": "InvokeLambdaFunction",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Lambda/activity/invokesync",
+       "input": {
+        "ConnectionName": {
+         "name": "tibco-aws",
+         "version": "1.0.0",
+         "title": "AWS Connector",
+         "type": "flogo:connector",
+         "author": "TIBCO Software Inc.",
+         "display": {
+          "description": "AWS Connection",
+          "category": "AWS",
+          "visible": true,
+          "smallIcon": "icons/ic-flogo-aws-connector.png",
+          "largeIcon": "icons/ic-flogo-aws-connector@2x.png"
+         },
+         "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/AWS/connector",
+         "keyfield": "name",
+         "settings": [
+          {
+           "name": "name",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Name",
+            "visible": true
+           },
+           "value": "RishiAWSConnection"
+          },
+          {
+           "name": "description",
+           "type": "string",
+           "required": false,
+           "display": {
+            "name": "Description",
+            "visible": true
+           },
+           "value": ""
+          },
+          {
+           "name": "region",
+           "type": "string",
+           "required": true,
+           "allowed": [
+            "us-east-1",
+            "us-east-2",
+            "us-west-1",
+            "us-west-2",
+            "eu-central-1",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "ap-south-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-southeast-1",
+            "ap-southeast-2"
+           ],
+           "display": {
+            "name": "Region",
+            "description": "AWS Region",
+            "visible": true
+           },
+           "value": "us-east-1"
+          },
+          {
+           "name": "accessKey",
+           "type": "string",
+           "required": false,
+           "display": {
+            "name": "Access ID",
+            "visible": true
+           },
+           "value": "AKIAI4VN4S7L2VUU47TA"
+          },
+          {
+           "name": "secretKey",
+           "type": "string",
+           "required": false,
+           "display": {
+            "name": "Access Key",
+            "visible": true,
+            "type": "password"
+           },
+           "value": "SECRET:Ou3fhvW7snpIREd6+gcl/sJD9Xdy/Mar9myrj+B4sl8z8D5L0liBXN23pBzT5aqQj7zQcLAxCWM="
+          },
+          {
+           "name": "LAMBDA_CONNECTION_INFO",
+           "type": "string",
+           "required": true,
+           "display": {
+            "visible": false
+           },
+           "value": ""
+          }
+         ],
+         "actions": [
+          {
+           "name": "Save Connector"
+          }
+         ],
+         "s3Prefix": "Tibco",
+         "lastModifiedDate": "2018-06-08T17:23:03.000Z",
+         "key": "Tibco/AWS/connector/connector.json",
+         "isValid": true,
+         "lastUpdatedTime": 1529280221325,
+         "createdTime": 1529280221325,
+         "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+         "subscriptionId": "TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD",
+         "id": "0f0bc3d0-728b-11e8-9ca5-bfac9fa9f41d",
+         "connectorName": " ",
+         "connectorDescription": " "
+        },
+        "arn": "arn:aws:lambda:us-east-1:928133119666:function:CreateSalesforceLeads-yv3ct5qfsp4ls77l2g67cgfkes6gcd63",
+        "payload": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"}}}",
+         "value": ""
+        }
+       },
+       "output": {
+        "result": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"response\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}}}",
+         "value": ""
+        }
+       },
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['payload']['name']",
+          "type": "expression",
+          "value": "$flow.jsonValue.customer.name"
+         },
+         {
+          "mapTo": "$INPUT['payload']['email']",
+          "type": "expression",
+          "value": "$flow.jsonValue.customer.email"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "LogMessage",
+      "name": "LogMessage",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+       "input": {
+        "Log Level": "INFO"
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['message']",
+          "type": "expression",
+          "value": "$flow.jsonValue.customer.name"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "PublishLeadCreatedEvent",
+      "name": "PublishLeadCreatedEvent",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Messaging/activity/tcmpublisher",
+       "input": {
+        "tcmConnection": {
+         "id": "b3b11e30-728b-11e8-95c1-b9d1fb6630b4",
+         "type": "flogo:connector",
+         "version": "1.0.0",
+         "name": "tibco-eftl",
+         "inputMappings": {},
+         "outputMappings": {},
+         "iteratorMappings": {},
+         "title": "TIBCO Cloud Messaging Connector",
+         "description": "This is TIBCO Cloud Messaging connector",
+         "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Messaging/connector/tcm",
+         "settings": [
+          {
+           "name": "name",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Connection Name",
+            "description": "Name of the connection"
+           },
+           "value": "TCM Connection"
+          },
+          {
+           "name": "description",
+           "type": "string",
+           "display": {
+            "name": "Description",
+            "description": "Connection description"
+           },
+           "value": ""
+          },
+          {
+           "name": "url",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Connection URL",
+            "description": "TIBCO Cloud Messaging connection url"
+           },
+           "value": "wss://messaging.cloud.tibco.com/tcm/TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD/channel"
+          },
+          {
+           "name": "authKey",
+           "type": "string",
+           "required": true,
+           "display": {
+            "name": "Authentication Key",
+            "description": "Authentication key",
+            "type": "password"
+           },
+           "value": "SECRET:4GmTUtIuCbebBFiM0qla8N3dwhxzrERrXeLFXHp/VypBokdYm1O1+iOVNcbPKA03"
+          }
+         ],
+         "outputs": [],
+         "inputs": [],
+         "handler": {
+          "settings": []
+         },
+         "reply": [],
+         "s3Prefix": "Tibco",
+         "key": "Tibco/Messaging/connector/tcm/connector.json",
+         "display": {
+          "description": "This is TIBCO Cloud Messaging connector",
+          "category": "Messaging",
+          "visible": true,
+          "smallIcon": "tcm.png"
+         },
+         "actions": [
+          {
+           "name": "Save",
+           "display": {
+            "readonly": false,
+            "valid": true,
+            "visible": true
+           }
+          }
+         ],
+         "feature": {},
+         "keyfield": "name",
+         "isValid": true,
+         "lastUpdatedTime": 1536046730282,
+         "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+         "connectorName": "TCM Connection",
+         "connectorDescription": " "
+        },
+        "message": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"}}}",
+         "value": ""
+        }
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['message']['name']",
+          "type": "expression",
+          "value": "$flow.jsonValue.customer.name"
+         },
+         {
+          "mapTo": "$INPUT['message']['email']",
+          "type": "expression",
+          "value": "$flow.jsonValue.customer.email"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "SuccessResponse",
+      "name": "SuccessResponse",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+       "input": {
+        "Reply": "Success with Data",
+        "code": 200,
+        "message": "Ok",
+        "data": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"message\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}",
+         "value": ""
+        }
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['data']['message']",
+          "type": "expression",
+          "value": "$activity[InvokeLambdaFunction].result.response.message"
+         },
+         {
+          "mapTo": "$INPUT['data']['id']",
+          "type": "expression",
+          "value": "$activity[InvokeLambdaFunction].result.response.id"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "LeadError",
+      "name": "LeadError",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+       "input": {
+        "Reply": "Error with Message",
+        "code": 500,
+        "message": "Ok"
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['message']",
+          "type": "expression",
+          "value": "$activity[InvokeLambdaFunction].result.response.message"
+         }
+        ]
+       }
+      }
+     },
+     {
+      "id": "LeadExistsResonse",
+      "name": "LeadExistsResonse",
+      "activity": {
+       "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/reply",
+       "input": {
+        "Reply": "Success with Data",
+        "code": 200,
+        "message": "Ok",
+        "data": {
+         "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"message\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}",
+         "value": ""
+        }
+       },
+       "output": {},
+       "mappings": {
+        "input": [
+         {
+          "mapTo": "$INPUT['data']['message']",
+          "type": "expression",
+          "value": "$activity[InvokeLambdaFunction].result.response.message"
+         },
+         {
+          "mapTo": "$INPUT['data']['id']",
+          "type": "expression",
+          "value": "$activity[InvokeLambdaFunction].result.response.id"
+         }
+        ]
+       }
+      }
+     }
+    ],
+    "links": [
+     {
+      "id": 1,
+      "from": "InvokeLambdaFunction",
+      "to": "LogMessage",
+      "type": "default"
+     },
+     {
+      "id": 2,
+      "from": "InvokeLambdaFunction",
+      "to": "PublishLeadCreatedEvent",
+      "type": "expression",
+      "value": "$activity[InvokeLambdaFunction].result.response.code == \"200\""
+     },
+     {
+      "id": 3,
+      "from": "PublishLeadCreatedEvent",
+      "to": "SuccessResponse",
+      "type": "default"
+     },
+     {
+      "id": 4,
+      "from": "InvokeLambdaFunction",
+      "to": "LeadError",
+      "type": "expression",
+      "value": ""
+     },
+     {
+      "id": 5,
+      "from": "InvokeLambdaFunction",
+      "to": "LeadExistsResonse",
+      "type": "expression",
+      "value": "$activity[InvokeLambdaFunction].result.response.code == \"201\""
+     }
+    ],
+    "metadata": {
+     "input": [],
+     "output": []
+    },
+    "explicitReply": true
+   }
+  }
+ ],
+ "triggers": [
+  {
+   "ref": "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/trigger/rest",
+   "name": "GetLeads",
+   "description": null,
+   "settings": {
+    "port": 9999
+   },
+   "id": "GetLeads",
+   "handlers": [
+    {
+     "description": null,
+     "settings": {
+      "Method": "GET",
+      "Path": "/customer/leads",
+      "OutputValidation": false
+     },
+     "outputs": {
+      "queryParams": {
+       "metadata": "{\"type\":\"object\",\"properties\":{}}",
+       "value": ""
+      },
+      "headers": {
+       "metadata": "{\"type\":\"object\",\"properties\":{}}",
+       "value": ""
+      }
+     },
+     "action": {
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+      "data": {
+       "flowURI": "res://flow:GetLeads"
+      },
+      "mappings": {
+       "input": [],
+       "output": []
+      }
+     },
+     "reply": {
+      "code": 200
+     }
+    },
+    {
+     "description": null,
+     "settings": {
+      "Method": "POST",
+      "Path": "/customer/leads",
+      "OutputValidation": false
+     },
+     "outputs": {
+      "queryParams": {
+       "metadata": "{\"type\":\"object\",\"properties\":{}}",
+       "value": ""
+      },
+      "headers": {
+       "metadata": "{\"type\":\"object\",\"properties\":{}}",
+       "value": ""
+      },
+      "body": {
+       "metadata": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"customer\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"name\": {\n          \"type\": \"string\",\n          \"default\": \"\"\n        },\n        \"email\": {\n          \"type\": \"string\",\n          \"default\": \"\"\n        },\n        \"creditscore\": {\n          \"type\": \"integer\",\n          \"default\": 0\n        }\n      }\n    }\n  }\n}",
+       "value": ""
+      }
+     },
+     "action": {
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+      "data": {
+       "flowURI": "res://flow:CreateLeads"
+      },
+      "mappings": {
+       "input": [],
+       "output": []
+      }
+     },
+     "reply": {
+      "code": 200
+     }
+    }
+   ]
+  },
+  {
+   "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/kafka/src/app/Kafka/trigger/consumer",
+   "name": "KafkaConsumer",
+   "description": "",
+   "settings": {
+    "kafkaConnection": {
+     "type": "flogo:connector",
+     "version": "1.0.0",
+     "name": "tibco-kafka",
+     "inputMappings": {},
+     "outputMappings": {},
+     "iteratorMappings": {},
+     "title": "Apache Kafka Client Configuration",
+     "description": "",
+     "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/kafka/src/app/Kafka/connector/kafka",
+     "settings": [
+      {
+       "name": "name",
+       "type": "string",
+       "required": true,
+       "display": {
+        "name": "Name",
+        "description": "Name of the configuration"
+       },
+       "value": "KafkaConnection_Rishi"
+      },
+      {
+       "name": "description",
+       "type": "string",
+       "display": {
+        "name": "Description",
+        "description": "Connection description"
+       },
+       "value": "Apache Kafka client configuration"
+      },
+      {
+       "name": "brokers",
+       "type": "string",
+       "required": true,
+       "display": {
+        "name": "Brokers",
+        "description": "A list of host/port pairs to use for establishing the initial connection to the Kafka cluster"
+       },
+       "value": "54.153.3.27:9092"
+      },
+      {
+       "name": "authMode",
+       "type": "string",
+       "display": {
+        "name": "Auth Mode",
+        "description": "Choose authentication mode to connect to Kafka cluster"
+       },
+       "allowed": [
+        "None",
+        "SASL/PLAIN",
+        "SSL"
+       ],
+       "value": "None"
+      },
+      {
+       "name": "userName",
+       "type": "string",
+       "required": true,
+       "display": {
+        "name": "User Name",
+        "visible": false,
+        "description": "User name for SASL authentication",
+        "readonly": false,
+        "valid": true
+       },
+       "value": ""
+      },
+      {
+       "name": "password",
+       "type": "string",
+       "required": true,
+       "display": {
+        "name": "Password",
+        "type": "password",
+        "visible": false,
+        "description": "Password for SASL authentication",
+        "readonly": false,
+        "valid": true
+       },
+       "value": "SECRET:QCFPnEWBsRjSfPdNOAwMCA=="
+      },
+      {
+       "name": "clientCert",
+       "type": "string",
+       "display": {
+        "description": "A PEM encoded certificate file",
+        "name": "Client Certificate",
+        "visible": false,
+        "type": "fileselector",
+        "fileExtensions": [
+         ".pem",
+         ".cert",
+         ".cer",
+         ".crt"
+        ],
+        "readonly": false,
+        "valid": true
+       },
+       "value": ""
+      },
+      {
+       "name": "clientKey",
+       "type": "string",
+       "display": {
+        "description": "A PEM encoded private key file",
+        "name": "Client Key",
+        "visible": false,
+        "type": "fileselector",
+        "fileExtensions": [
+         ".pem",
+         ".cert",
+         ".cer",
+         ".crt",
+         ".key"
+        ],
+        "readonly": false,
+        "valid": true
+       },
+       "value": ""
+      },
+      {
+       "name": "caCert",
+       "type": "string",
+       "display": {
+        "description": "A PEM encoded CA or Server certificate file",
+        "name": "CA or Server Certificate",
+        "visible": false,
+        "type": "fileselector",
+        "fileExtensions": [
+         ".pem",
+         ".cert",
+         ".cer",
+         ".crt"
+        ],
+        "readonly": false,
+        "valid": true
+       },
+       "value": ""
+      },
+      {
+       "name": "connectionTimeout",
+       "type": "integer",
+       "display": {
+        "name": "Connection Timeout",
+        "description": "The amount of time in seconds to wait for the initial connection"
+       },
+       "value": 30
+      },
+      {
+       "name": "retryBackoff",
+       "type": "integer",
+       "display": {
+        "name": "Retry Backoff",
+        "description": "The amount of time in milliseconds to wait for leader election to occur before retrying"
+       },
+       "value": 250
+      },
+      {
+       "name": "retryMax",
+       "type": "integer",
+       "display": {
+        "name": "Max Retry",
+        "description": "The total number of times to retry a metadata request when the cluster is in the middle of a leader election"
+       },
+       "value": 3
+      },
+      {
+       "name": "refreshFrequency",
+       "type": "integer",
+       "display": {
+        "name": "Refresh Frequency",
+        "description": "The amount of time in seconds after which metadata is refreshed in the background. Set 0 to disable it."
+       },
+       "value": 40
+      }
+     ],
+     "outputs": [],
+     "inputs": [],
+     "handler": {
+      "settings": []
+     },
+     "reply": [],
+     "s3Prefix": "Tibco",
+     "key": "Tibco/Kafka/connector/kafka/connector.json",
+     "display": {
+      "category": "Kafka",
+      "smallIcon": "icons/kafka.png",
+      "largeIcon": "icons/kafka.png"
+     },
+     "actions": [
+      {
+       "name": "Save",
+       "display": {
+        "readonly": false,
+        "valid": true,
+        "visible": true
+       }
+      }
+     ],
+     "feature": {},
+     "keyfield": "name",
+     "isValid": true,
+     "lastUpdatedTime": 1536040844199,
+     "createdTime": 1536040844199,
+     "user": "2fhvpwlvw4i3433j2fdi6cy4xfxpfmlq",
+     "subscriptionId": "TIB_SUB_01BB7FA3Y766WAJ3P5XJXZ1SMD",
+     "id": "dc4b6b70-b007-11e8-ad52-9b32babff397",
+     "connectorName": " ",
+     "connectorDescription": " "
+    }
+   },
+   "id": "KafkaConsumer",
+   "handlers": [
+    {
+     "description": "",
+     "settings": {
+      "topic": "leads",
+      "consumerGroup": "leads",
+      "valueType": "JSON",
+      "commitInterval": 5000,
+      "initialOffset": "Oldest",
+      "fetchMinBytes": 1,
+      "fetchMaxWait": 500,
+      "heartbeatInterval": 3000,
+      "sessionTimeout": 30000
+     },
+     "outputs": {
+      "topic": "",
+      "key": "",
+      "stringValue": "",
+      "jsonValue": {
+       "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"customer\":{\"type\":\"object\",\"properties\":{\"creditscore\":{\"type\":\"number\"},\"email\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"}}}}}",
+       "value": ""
+      }
+     },
+     "action": {
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+      "data": {
+       "flowURI": "res://flow:LeadSubscriber"
+      },
+      "mappings": {
+       "input": [],
+       "output": []
+      }
+     }
+    }
+   ]
+  }
+ ],
+ "ui": "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",
+ "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1wbHVnaW5zLmdpdC9jb250cmlidXRpb25zL1NhbGVzZm9yY2UiLCJzM2xvY2F0aW9uIjoiVGliY28vU2FsZXNmb3JjZSJ9LHsicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1wbHVnaW5zLmdpdC9jb250cmlidXRpb25zL0xhbWJkYSIsInMzbG9jYXRpb24iOiJUaWJjby9MYW1iZGEifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktcGx1Z2lucy5naXQvY29udHJpYnV0aW9ucy9NZXNzYWdpbmciLCJzM2xvY2F0aW9uIjoiVGliY28vTWVzc2FnaW5nIn0seyJyZWYiOiJnaXQudGliY28uY29tL2dpdC9wcm9kdWN0L2lwYWFzL3dpLXRjdGEuZ2l0L3NyYy9hcHAvQXVkaXRTYWZlIiwiczNsb2NhdGlvbiI6IlRpYmNvL0F1ZGl0U2FmZSJ9LHsicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1wbHVnaW5zLmdpdC9jb250cmlidXRpb25zL2thZmthL3NyYy9hcHAvS2Fma2EiLCJzM2xvY2F0aW9uIjoiVGliY28vS2Fma2EifV0="
+}
